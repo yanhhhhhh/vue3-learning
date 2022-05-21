@@ -1,56 +1,52 @@
 <template>
 <div class="container">
-<GlobalHeader :user="testUser"></GlobalHeader>
-<ColumnList :list="testData"></ColumnList>
+  父组件-->{{msg}}
+<ChildItem :msg="msg" :msg1="msg1"></ChildItem>
 </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-// import HelloWorld from './components/HelloWorld.vue'
-import 'bootstrap/dist/css/bootstrap.min.css'
+<!-- import 'bootstrap/dist/css/bootstrap.min.css' -->
 
-import ColumnList, { ColumnProps } from './components/ColumnList.vue'
-import GlobalHeader, { UserProps } from './components/GlobalHeader.vue'
-const testUser :UserProps = {
-  isLogin: true,
-  name: 'yanhhhhh',
-  id: 1
-}
-const testData: ColumnProps[] = [
-  {
-    id: 1,
-    title: 'test1的专栏',
-    description: '这是的test1专栏，有一段非常有意思的简介，可以更新一下欧',
-    avatar: 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100'
-  },
-  {
-    id: 2,
-    title: 'test2的专栏',
-    description: '这是的test2专栏，有一段非常有意思的简介，可以更新一下欧',
-    avatar: 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100'
-  },
-  {
-    id: 3,
-    title: 'test3的专栏',
-    description: '这是的test1专栏，有一段非常有意思的简介，可以更新一下欧 这是的test1专栏，有一段非常有意思的简介，可以更新一下欧'
-    // avatar: 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100'
-  },
-  {
-    id: 4,
-    title: 'test4的专栏',
-    description: '这是的test2专栏，有一段非常有意思的简介，可以更新一下欧',
-    avatar: 'http://vue-maker.oss-cn-hangzhou.aliyuncs.com/vue-marker/5ee22dd58b3c4520912b9470.jpg?x-oss-process=image/resize,m_pad,h_100,w_100'
-  }
-]
+<script lang="ts">
+import { defineComponent, ref, onBeforeMount, onMounted, onBeforeUpdate, onUpdated } from 'vue'
+import ChildItem from './components/base/Child.vue'
 export default defineComponent({
   name: 'App',
   components: {
-    ColumnList,
-    GlobalHeader
+    ChildItem
+
   },
-  setup () {
-    return { testData, testUser }
+  beforeCreate () {
+    console.log('父beforeCreate')
+  },
+  created () {
+    console.log('父created')
+  },
+
+  setup (props, ctx) {
+    const msg = ref('prop接受的msg')
+    const msg1 = ref('不使用prop接受的msg，则attr接受')
+    console.log('父setup')
+    onBeforeMount(() => {
+      console.log('父onBeforeMount')
+    })
+    onMounted(() => {
+      setTimeout(() => {
+        msg.value = 'hello,1s后修改msg'
+        console.log('msg 被修改')
+      }, 1000)
+      console.log('父onMounted')
+    })
+    onBeforeUpdate(() => {
+      console.log('父onBeforeUpdate')
+    })
+    onUpdated(() => {
+      console.log('父onUpdated')
+    })
+    return {
+      msg,
+      msg1
+    }
   }
 })
 </script>

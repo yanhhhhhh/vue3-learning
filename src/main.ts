@@ -1,4 +1,6 @@
 import { createApp } from 'vue'
+// 父子组件demo
 import App from './App.vue'
-
-createApp(App).mount('#app')
+// router demo
+import Router from './components/router/RouterView.vue'
+createApp(Router).mount('#app')
